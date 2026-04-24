@@ -26,19 +26,28 @@
 </div>
 
 <script>
-    // Fungsi sederhana untuk mengacak HWID menjadi Key
     function generateKey(hwid) {
         if (!hwid) return "HWID-TIDAK-DITEMUKAN";
-        // Enkripsi sederhana: Base64 dari HWID + Salt "ROBLOX"
-        return btoa(hwid + "ROBLOX-SALT").substring(0, 15);
+        
+        let salt = "ROBLOX-SALT";
+        let str = hwid + salt;
+        let hash = 0;
+        
+        // Rumus matematika sederhana (Hash Code)
+        for (let i = 0; i < str.length; i++) {
+            let char = str.charCodeAt(i);
+            hash = ((hash << 5) - hash) + char;
+            hash = hash & hash; // Convert to 32bit integer
+        }
+        
+        // Ambil hasil positif dan tambahkan prefix "KEY-"
+        return "TAIJUBS-" + Math.abs(hash).toString(16).toUpperCase();
     }
 
-    // Ambil parameter HWID dari URL
     const urlParams = new URLSearchParams(window.location.search);
     const userHwid = urlParams.get('hwid');
     const finalKey = generateKey(userHwid);
 
-    // Tampilkan di layar
     document.getElementById('keyDisplay').innerText = finalKey;
 
     function copyKey() {
