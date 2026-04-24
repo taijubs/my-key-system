@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Key System Generator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #1e1e1e; padding: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
+        h1 { color: #00ff88; margin-bottom: 10px; }
+        p { color: #bbb; font-size: 14px; }
+        .key-box { background: #2a2a2a; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: monospace; font-size: 18px; color: #fff; border: 1px dashed #555; word-break: break-all; }
+        button { background: #00ff88; color: #121212; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #00cc6e; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Key Generated!</h1>
+    <p>Gunakan key di bawah ini pada executor kamu:</p>
+    
+    <div class="key-box" id="keyDisplay">Loading...</div>
+    
+    <button onclick="copyKey()">Salin Key</button>
+</div>
+
+<script>
+    // Fungsi sederhana untuk mengacak HWID menjadi Key
+    function generateKey(hwid) {
+        if (!hwid) return "HWID-TIDAK-DITEMUKAN";
+        // Enkripsi sederhana: Base64 dari HWID + Salt "ROBLOX"
+        return btoa(hwid + "ROBLOX-SALT").substring(0, 15);
+    }
+
+    // Ambil parameter HWID dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userHwid = urlParams.get('hwid');
+    const finalKey = generateKey(userHwid);
+
+    // Tampilkan di layar
+    document.getElementById('keyDisplay').innerText = finalKey;
+
+    function copyKey() {
+        navigator.clipboard.writeText(finalKey);
+        alert("Key berhasil disalin!");
+    }
+</script>
+
+</body>
+</html>
+
