@@ -5,57 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Key System Generator</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { background: #1e1e1e; padding: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.5); text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
-        h1 { color: #00ff88; margin-bottom: 10px; }
-        p { color: #bbb; font-size: 14px; }
-        .key-box { background: #2a2a2a; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: monospace; font-size: 18px; color: #fff; border: 1px dashed #555; word-break: break-all; }
-        button { background: #00ff88; color: #121212; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: #00cc6e; transform: scale(1.05); }
+        body { font-family: 'Segoe UI', sans-serif; background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: #1e1e1e; padding: 30px; border-radius: 15px; text-align: center; width: 90%; max-width: 400px; border: 1px solid #333; }
+        h1 { color: #00ff88; }
+        .key-box { background: #2a2a2a; padding: 15px; border-radius: 8px; margin: 20px 0; font-family: monospace; font-size: 20px; color: #ff0077; border: 1px dashed #555; }
+        button { background: #00ff88; color: #121212; border: none; padding: 12px 25px; border-radius: 5px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
-
 <div class="container">
-    <h1>Key Generated!</h1>
-    <p>Gunakan key di bawah ini pada executor kamu:</p>
-    
-    <div class="key-box" id="keyDisplay">Loading...</div>
-    
+    <h1>Key Today</h1>
+    <p>Salin key ini ke executor kamu:</p>
+    <div class="key-box" id="keyDisplay">TAIJUBS-24APR</div>
     <button onclick="copyKey()">Salin Key</button>
 </div>
-
 <script>
-    function generateKey(hwid) {
-        if (!hwid) return "HWID-TIDAK-DITEMUKAN";
-        
-        let salt = "ROBLOX-SALT";
-        let str = hwid + salt;
-        let hash = 0;
-        
-        // Rumus matematika sederhana (Hash Code)
-        for (let i = 0; i < str.length; i++) {
-            let char = str.charCodeAt(i);
-            hash = ((hash << 5) - hash) + char;
-            hash = hash & hash; // Convert to 32bit integer
-        }
-        
-        // Ambil hasil positif dan tambahkan prefix "KEY-"
-        return "TAIJUBS-" + Math.abs(hash).toString(16).toUpperCase();
-    }
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const userHwid = urlParams.get('hwid');
-    const finalKey = generateKey(userHwid);
-
-    document.getElementById('keyDisplay').innerText = finalKey;
-
     function copyKey() {
-        navigator.clipboard.writeText(finalKey);
+        var text = document.getElementById('keyDisplay').innerText;
+        navigator.clipboard.writeText(text);
         alert("Key berhasil disalin!");
     }
 </script>
-
 </body>
 </html>
 
